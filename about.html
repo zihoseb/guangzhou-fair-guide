@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 - 广交会游览攻略</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #c41e3a;
+            --secondary: #1a1a2e;
+            --accent: #e6b800;
+            --light: #f5f5f5;
+            --dark: #333;
+            --white: #fff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-content {
+            padding: 60px 20px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .section p {
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .author-card {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .author-avatar {
+            width: 120px;
+            height: 120px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--white);
+            flex-shrink: 0;
+        }
+
+        .author-info h3 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .author-info p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h4 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .author-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">广交会攻略</a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>关于我们</h1>
+            <p>了解这个网站的创建初衷与背后故事</p>
+        </div>
+    </section>
+
+    <section class="page-content">
+        <div class="container">
+            <div class="section">
+                <h2>这个网站是干嘛的？</h2>
+                <p>广交会游览攻略是一个专注于中国进出口商品交易会（广交会）的实用信息平台。我们致力于为参展商、采购商和参观者提供全面、准确、及时的展会资讯。</p>
+                <p>无论是第一次参加广交会的新人，还是已经参加多年的老朋友，都能在这里找到实用的帮助。我们的内容涵盖展会日程、交通指南、展位分布、参展技巧等各个方面。</p>
+
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">📚</div>
+                        <h4>软件技巧</h4>
+                        <p>分享实用的参展工具和软件应用技巧，帮助您更高效地管理参展事务。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🗺️</div>
+                        <h4>使用教程</h4>
+                        <p>详细的展会导航和参展流程指南，让您的广交会之旅更加顺畅。</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💡</div>
+                        <h4>实用建议</h4>
+                        <p>来自真实参展经验者的建议和心得，助您避坑、省时、省钱。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>我是谁？</h2>
+                <div class="author-card">
+                    <div class="author-avatar">🧑‍💻</div>
+                    <div class="author-info">
+                        <h3>展会通</h3>
+                        <p>一个热爱探索、喜欢分享的互联网从业者</p>
+                        <p>连续多年参加广交会，积累了丰富的参展经验和实用技巧</p>
+                        <p>希望通过这个平台，帮助更多人轻松参展</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>我们的目标</h2>
+                <p>让每一位参展商和采购商都能快速找到所需信息，避免在展会中走弯路。我们相信，好的准备是成功参展的一半。</p>
+                <p>我们将持续更新内容，确保信息的准确性和时效性。如果您有任何建议或发现信息有误，欢迎通过联系方式告诉我们。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 广交会游览攻略 - 让您的参展之旅更轻松</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

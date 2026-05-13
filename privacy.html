@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - 广交会游览攻略</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #c41e3a;
+            --secondary: #1a1a2e;
+            --accent: #e6b800;
+            --light: #f5f5f5;
+            --dark: #333;
+            --white: #fff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--white);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            opacity: 0.9;
+        }
+
+        .page-content {
+            padding: 60px 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .section p {
+            color: #555;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+
+        .section ul {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .section li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .section li::before {
+            content: "•";
+            color: var(--primary);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .update-date {
+            background: var(--light);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        .contact-box {
+            background: #f0f4f8;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+            margin-top: 30px;
+        }
+
+        .contact-box h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .contact-box p {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">广交会攻略</a>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="privacy.html" class="active">Privacy</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>隐私政策</h1>
+            <p>保护您的隐私是我们的重要责任</p>
+        </div>
+    </section>
+
+    <section class="page-content">
+        <div class="container">
+            <div class="update-date">
+                <strong>最后更新日期：</strong>2026年5月13日
+            </div>
+
+            <div class="section">
+                <h2>信息收集与使用</h2>
+                <p>我们高度重视您的个人隐私保护。本网站（广交会游览攻略）承诺尊重并保护所有用户的个人隐私。</p>
+                <p>当您访问本网站时，我们会收集以下基本信息：</p>
+                <ul>
+                    <li>浏览器类型和版本</li>
+                    <li>访问时间和日期</li>
+                    <li>页面访问量统计</li>
+                    <li>访问来源（Referrer）</li>
+                </ul>
+                <p>这些信息通过Google Analytics等分析工具自动收集，用于改进网站内容和用户体验。</p>
+            </div>
+
+            <div class="section">
+                <h2>Cookie 使用</h2>
+                <p>本网站使用Cookie来增强您的浏览体验。Cookie是存储在您设备上的小型文本文件，用于：</p>
+                <ul>
+                    <li>记住您的偏好设置</li>
+                    <li>分析网站流量和使用情况</li>
+                    <li>提供个性化的内容和功能</li>
+                </ul>
+                <p>您可以通过浏览器设置拒绝接受Cookie，但这可能会影响网站的某些功能。</p>
+            </div>
+
+            <div class="section">
+                <h2>第三方服务</h2>
+                <p>本网站可能使用以下第三方服务：</p>
+                <ul>
+                    <li><strong>Google Analytics：</strong>用于分析网站访问量和用户行为</li>
+                    <li><strong>GitHub Pages：</strong>托管和提供本网站服务</li>
+                </ul>
+                <p>这些第三方服务有自己的隐私政策，我们建议您查阅他们的隐私条款。</p>
+            </div>
+
+            <div class="section">
+                <h2>广告</h2>
+                <p>本网站目前<strong>不包含任何第三方广告</strong>。我们致力于为用户提供干净、无干扰的浏览体验。</p>
+                <p>未来如果引入广告，我们承诺：</p>
+                <ul>
+                    <li>所有广告将清晰标识</li>
+                    <li>不会收集您的个人信息用于广告定向</li>
+                    <li>只与信誉良好的广告商合作</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>外部链接</h2>
+                <p>本网站包含指向外部网站的链接，主要包括：</p>
+                <ul>
+                    <li>广交会官方网站</li>
+                    <li>广州地铁官方网站</li>
+                    <li>其他相关服务网站</li>
+                </ul>
+                <p>请注意，这些外部网站有自己的隐私政策，我们不对其内容或行为负责。</p>
+            </div>
+
+            <div class="section">
+                <h2>数据安全</h2>
+                <p>我们采取合理的技术和 organizational 措施来保护您的数据安全，包括：</p>
+                <ul>
+                    <li>HTTPS加密传输</li>
+                    <li>安全的服务器托管环境</li>
+                    <li>定期的安全审查</li>
+                </ul>
+                <p>但请注意，互联网传输无法保证100%的安全性。</p>
+            </div>
+
+            <div class="section">
+                <h2>用户权利</h2>
+                <p>根据适用法律，您享有以下权利：</p>
+                <ul>
+                    <li>了解我们收集了哪些关于您的数据</li>
+                    <li>要求删除您的个人数据</li>
+                    <li>撤回您的同意</li>
+                    <li>更正不准确的数据</li>
+                </ul>
+            </div>
+
+            <div class="contact-box">
+                <h3>联系我们</h3>
+                <p>如果您对本隐私政策有任何疑问或顾虑，请通过以下方式联系我们：</p>
+                <p>📧 邮箱：guangzhoufair@example.com</p>
+                <p>🌐 网站：<a href="contact.html" style="color: var(--primary);">联系我们页面</a></p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 广交会游览攻略 - 让您的参展之旅更轻松</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
