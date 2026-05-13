@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Canton Fair Guide</title>
+    <title>Blog - Canton Fair Guide</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
@@ -147,7 +147,7 @@
         .page-header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: var(--white);
-            padding: 180px 20px 80px;
+            padding: 160px 20px 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -168,130 +168,140 @@
             font-size: 3rem;
             font-weight: 700;
             margin-bottom: 16px;
-            line-height: 1.3;
+            position: relative;
         }
 
         .page-header p {
             font-size: 1.2rem;
             opacity: 0.9;
-            line-height: 1.8;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .page-content {
             padding: 80px 20px;
         }
 
-        .section {
-            margin-bottom: 60px;
-        }
-
-        .section h2 {
-            color: var(--secondary);
-            font-size: 2rem;
-            margin-bottom: 24px;
-            font-weight: 700;
-            display: inline-block;
-        }
-
-        .section h2::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 2px;
-            margin-top: 10px;
-        }
-
-        .section p {
-            color: var(--gray-600);
-            margin-bottom: 20px;
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-
-        .author-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
-
-        .author-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .author-avatar {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: var(--white);
-            flex-shrink: 0;
-            box-shadow: 0 8px 24px rgba(196, 30, 58, 0.3);
-        }
-
-        .author-info h3 {
-            color: var(--secondary);
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .author-info p {
-            color: var(--gray-600);
-            margin-bottom: 8px;
-            font-size: 1rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature-item {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 32px;
+        .filter-section {
+            max-width: 900px;
+            margin: 0 auto 40px;
             text-align: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border: 2px solid var(--gray-300);
+            background: var(--white);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-600);
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
             box-shadow: var(--shadow-md);
             transition: all 0.3s ease;
+            cursor: pointer;
             border: 2px solid transparent;
         }
 
-        .feature-item:hover {
+        .blog-card:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
             border-color: var(--primary);
         }
 
-        .feature-icon {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
+        .blog-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
         }
 
-        .feature-item h4 {
-            color: var(--secondary);
-            margin-bottom: 12px;
-            font-size: 1.2rem;
+        .blog-content {
+            padding: 28px;
+        }
+
+        .blog-category {
+            display: inline-block;
+            background: rgba(196, 30, 58, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
         }
 
-        .feature-item p {
+        .blog-card h3 {
+            color: var(--secondary);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .blog-card p {
             color: var(--gray-600);
             font-size: 0.95rem;
-            line-height: 1.7;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .read-more {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 10px;
         }
 
         footer {
@@ -309,12 +319,6 @@
         footer a {
             color: var(--accent);
             text-decoration: none;
-        }
-
-        @media (max-width: 992px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 768px) {
@@ -344,13 +348,7 @@
                 font-size: 2.2rem;
             }
 
-            .author-card {
-                flex-direction: column;
-                text-align: center;
-                padding: 32px;
-            }
-
-            .features-grid {
+            .blog-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -366,7 +364,8 @@
             <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="privacy.html">Privacy</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
@@ -375,54 +374,100 @@
 
     <section class="page-header">
         <div class="container">
-            <h1>About Us</h1>
-            <p>Learn about our mission and the story behind this guide</p>
+            <h1>Canton Fair Blog</h1>
+            <p>Your complete guide to navigating, networking, and succeeding at the Canton Fair</p>
         </div>
     </section>
 
     <section class="page-content">
         <div class="container">
-            <div class="section">
-                <h2>What We Do</h2>
-                <p>Canton Fair Guide is a dedicated resource for anyone participating in China's largest trade show. We provide comprehensive, up-to-date information to help you navigate the fair successfully.</p>
-                <p>Whether you're a first-time visitor or a seasoned attendee, you'll find practical advice, travel tips, and business strategies tailored to the Canton Fair experience.</p>
-                
-                <div class="features-grid">
-                    <div class="feature-item">
-                        <div class="feature-icon">📚</div>
-                        <h4>Practical Guides</h4>
-                        <p>Step-by-step guides covering everything from registration to post-fair follow-up.</p>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">🗺️</div>
-                        <h4>Travel Tips</h4>
-                        <p>Essential advice for getting to Guangzhou and getting around during the fair.</p>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">💡</div>
-                        <h4>Business Insights</h4>
-                        <p>Proven strategies for networking, negotiating, and making the most of your visit.</p>
-                    </div>
+            <div class="filter-section">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterPosts('all')">All</button>
+                    <button class="filter-btn" onclick="filterPosts('beginner')">Beginner Guides</button>
+                    <button class="filter-btn" onclick="filterPosts('tips')">Practical Tips</button>
+                    <button class="filter-btn" onclick="filterPosts('pitfalls')">Avoid Pitfalls</button>
                 </div>
             </div>
 
-            <div class="section">
-                <h2>About the Author</h2>
-                <div class="author-card">
-                    <div class="author-avatar">🧑‍💼</div>
-                    <div class="author-info">
-                        <h3>Canton Fair Expert</h3>
-                        <p>International trade enthusiast with years of experience</p>
-                        <p>Multiple Canton Fair visits under my belt</p>
-                        <p>Passionate about helping others succeed in China</p>
+            <div class="blog-grid" id="blogGrid">
+                <div class="blog-card" data-category="beginner" onclick="window.location.href='article-first-time.html'">
+                    <div class="blog-image">🎯</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Beginner Guide</span>
+                        <h3>First Time at Canton Fair? Complete 2026 Guide</h3>
+                        <p>Everything you need to know about registration, badge application, transportation, and navigating the complex successfully.</p>
+                        <div class="blog-meta">
+                            <span>May 14, 2026</span>
+                            <a href="article-first-time.html" class="read-more">Read More →</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section">
-                <h2>Our Mission</h2>
-                <p>To make the Canton Fair accessible and successful for everyone, regardless of experience level. We believe that better preparation leads to better outcomes.</p>
-                <p>We are committed to keeping our content accurate, practical, and unbiased. If you have suggestions or corrections, please reach out!</p>
+                <div class="blog-card" data-category="tips" onclick="window.location.href='article-find-clients.html'">
+                    <div class="blog-image">🤝</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Practical Tips</span>
+                        <h3>How to Find Clients at Canton Fair? 3 Scripts</h3>
+                        <p>Proven conversation starters and networking strategies that help you connect with serious buyers effectively.</p>
+                        <div class="blog-meta">
+                            <span>May 13, 2026</span>
+                            <a href="article-find-clients.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-category="pitfalls" onclick="window.location.href='article-scams.html'">
+                    <div class="blog-image">⚠️</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Avoid Pitfalls</span>
+                        <h3>Common Scams at Canton Fair You Must Know</h3>
+                        <p>Learn about fake buyers, fake translators, hotel booking scams, and how to protect yourself from fraud.</p>
+                        <div class="blog-meta">
+                            <span>May 12, 2026</span>
+                            <a href="article-scams.html" class="read-more">Read More →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-category="beginner" onclick="alert('Coming soon!')">
+                    <div class="blog-image">🎟️</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Beginner Guide</span>
+                        <h3>Canton Fair Tickets: How to Buy & Registration</h3>
+                        <p>Complete breakdown of ticket channels for individuals, companies, and international buyers.</p>
+                        <div class="blog-meta">
+                            <span>Coming Soon</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-category="beginner" onclick="alert('Coming soon!')">
+                    <div class="blog-image">🗺️</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Beginner Guide</span>
+                        <h3>Canton Fair Map Guide: A/B/C/D/E Zones</h3>
+                        <p>Understanding the complex layout and what products are in each exhibition zone.</p>
+                        <div class="blog-meta">
+                            <span>Coming Soon</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blog-card" data-category="tips" onclick="alert('Coming soon!')">
+                    <div class="blog-image">💼</div>
+                    <div class="blog-content">
+                        <span class="blog-category">Practical Tips</span>
+                        <h3>Negotiation Skills: How to Get Orders On-Site</h3>
+                        <p>Strategies to impress buyers and close deals right at your booth.</p>
+                        <div class="blog-meta">
+                            <span>Coming Soon</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -437,6 +482,22 @@
         function toggleMenu() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.classList.toggle('active');
+        }
+
+        function filterPosts(category) {
+            const cards = document.querySelectorAll('.blog-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         window.addEventListener('scroll', function() {
