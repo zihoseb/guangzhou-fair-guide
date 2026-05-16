@@ -1,35 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canton Fair Guide - Discover Guangzhou</title>
+    <title>广交会指南 2026 - 您的智能广交会向导</title>
+    <meta name="description" content="广交会2026完整指南 - 展馆地图、展商查询、出行指南及广州住宿推荐。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- Leaflet CSS for detailed map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
             --primary: #c41e3a;
             --primary-dark: #a01830;
             --accent: #e6b800;
-            --secondary: #1a1a2e;
-            --white: #ffffff;
+            --dark-bg: #0a0a1a;
+            --dark-card: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
         }
 
         body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #000;
-            overflow: hidden;
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
         }
 
         header {
@@ -37,116 +35,99 @@
             top: 0;
             left: 0;
             right: 0;
-            z-index: 1000;
-            padding: 20px 40px;
+            padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
-            transition: opacity 0.5s ease;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+            transition: background 0.3s;
         }
 
-        header.hidden {
-            opacity: 0;
-            pointer-events: none;
+        header.scrolled {
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
         }
 
         .logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         nav ul {
             display: flex;
-            gap: 24px;
+            gap: 30px;
             list-style: none;
         }
 
         nav a {
+            color: var(--text-secondary);
             text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: white; }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 10px 25px;
+            border-radius: 30px;
             color: white;
             font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-            opacity: 0.9;
         }
 
-        nav a:hover {
-            color: var(--accent);
-            opacity: 1;
-        }
-
-        nav a.cta-btn {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 10px 24px;
-            border-radius: 50px;
-            color: white;
-        }
-
-        #globe-container {
-            width: 100vw;
+        /* Hero Section */
+        #hero {
+            position: relative;
             height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            transition: opacity 0.5s ease;
-        }
-
-        #globe-container.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .hero-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
         }
 
-        .hero-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
+        #globe-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
         }
 
-        .hero-content {
+        #globe {
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-overlay {
+            position: relative;
+            z-index: 2;
             text-align: center;
-            color: white;
-            max-width: 800px;
-            padding: 20px;
-            pointer-events: auto;
+            padding: 0 20px;
         }
 
         .hero-badge {
             display: inline-block;
             background: rgba(196, 30, 58, 0.3);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(196, 30, 58, 0.4);
             color: white;
             padding: 12px 30px;
@@ -157,339 +138,367 @@
         }
 
         .hero-title {
-            font-size: 4.5rem;
+            font-size: 4rem;
             font-weight: 700;
             margin-bottom: 20px;
             background: linear-gradient(135deg, var(--accent) 0%, #fff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 40px rgba(230, 184, 0, 0.3);
         }
 
         .hero-subtitle {
-            font-size: 1.4rem;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            color: var(--text-secondary);
             line-height: 1.7;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            max-width: 600px;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
             justify-content: center;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 16px 40px;
+            padding: 18px 40px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.05rem;
-            box-shadow: 0 10px 40px rgba(196, 30, 58, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 16px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(196, 30, 58, 0.5);
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 100;
-            color: white;
-            font-size: 0.9rem;
-            opacity: 0.6;
-            pointer-events: auto;
-            transition: opacity 0.5s ease;
-        }
-
-        .footer.hidden {
-            opacity: 0;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         .scroll-hint {
             position: absolute;
-            bottom: 80px;
+            bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            color: white;
+            color: rgba(255,255,255,0.5);
             font-size: 0.9rem;
-            opacity: 0.8;
+            z-index: 2;
             animation: bounce 2s infinite;
-            transition: opacity 0.5s ease;
-        }
-
-        .scroll-hint.hidden {
-            opacity: 0;
-        }
-
-        .scroll-hint div {
-            width: 30px;
-            height: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 15px;
-            position: relative;
-        }
-
-        .scroll-hint div::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 4px;
-            height: 10px;
-            background: var(--accent);
-            border-radius: 2px;
-            animation: scrollDown 1.5s infinite;
-        }
-
-        /* Detailed Map Section */
-        #detail-map-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 500;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        #detail-map-container.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        #detail-map {
-            width: 100%;
-            height: 100%;
-        }
-
-        .map-overlay {
-            position: fixed;
-            top: 80px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            z-index: 600;
-            max-width: 320px;
-        }
-
-        .map-overlay h2 {
-            color: var(--secondary);
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
-
-        .map-overlay p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(196, 30, 58, 0.3);
-        }
-
-        .location-list {
-            margin-top: 20px;
-        }
-
-        .location-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        .location-item:last-child {
-            border-bottom: none;
-        }
-
-        .location-icon {
-            font-size: 1.5rem;
-        }
-
-        .location-info h4 {
-            color: var(--secondary);
-            font-size: 0.95rem;
-            margin-bottom: 4px;
-        }
-
-        .location-info p {
-            color: #666;
-            font-size: 0.85rem;
-            margin: 0;
-        }
-
-        /* Custom marker styles */
-        .custom-marker {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 18px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-
-        .marker-canton {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #c41e3a 0%, #a01830 100%);
-        }
-
-        .marker-airport {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-        }
-
-        .marker-train {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-        }
-
-        .marker-subway {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
-
-        /* Custom popup style */
-        .custom-popup .leaflet-popup-content-wrapper {
-            border-radius: 12px;
-            padding: 0;
-        }
-
-        .custom-popup .leaflet-popup-content {
-            margin: 0;
-            min-width: 200px;
-        }
-
-        .popup-content {
-            padding: 16px;
-        }
-
-        .popup-content h3 {
-            color: var(--secondary);
-            font-size: 1.1rem;
-            margin-bottom: 8px;
-        }
-
-        .popup-content p {
-            color: #666;
-            font-size: 0.9rem;
-            margin: 0;
         }
 
         @keyframes bounce {
-            0%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            50% {
-                transform: translateX(-50%) translateY(10px);
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
         }
 
-        @keyframes scrollDown {
-            0% {
-                opacity: 0;
-                top: 10px;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                top: 30px;
-            }
+        /* Info Cards Section */
+        #info-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent 0%, #0f0f23 100%);
         }
 
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1400px;
+            margin: 60px auto 0;
+        }
+
+        .info-card {
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(20, 20, 35, 0.9));
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .info-card:hover {
+            border-color: rgba(196, 30, 58, 0.5);
+            box-shadow: 0 0 30px rgba(196, 30, 58, 0.15), 0 8px 32px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, rgba(196, 30, 58, 0.08), rgba(26, 26, 46, 0.9));
+            transform: translateY(-2px);
+        }
+
+        .card-icon-wrapper {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(196, 30, 58, 0.15), rgba(196, 30, 58, 0.05));
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .card-icon {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-title::after {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 1px;
+        }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Map Section */
+        #map-section {
+            padding: 100px 50px;
+            background: #0f0f23;
+        }
+
+        .map-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--dark-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        #detail-map {
+            height: 500px;
+        }
+
+        .map-controls {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .map-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: inherit;
+        }
+
+        .map-btn:hover {
+            background: rgba(196, 30, 58, 0.8);
+            border-color: var(--primary);
+        }
+
+        /* Content Section */
+        #content-section {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, #0f0f23 0%, #0a0a1a 100%);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-card {
+            background: var(--dark-card);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .content-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .content-card li {
+            color: var(--text-secondary);
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .content-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 20px;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 12px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a1a;
+            padding: 60px 50px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .footer-section li {
+            padding: 8px 0;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            header {
-                padding: 15px 20px;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            nav ul {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .map-overlay {
-                top: 70px;
-                left: 10px;
-                right: 10px;
-                max-width: none;
-                padding: 20px;
-            }
+            header { padding: 15px 20px; }
+            nav ul { gap: 15px; }
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 280px; }
+            #info-section, #map-section, #content-section { padding: 60px 20px; }
+            .section-title { font-size: 1.8rem; }
+            footer { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -497,604 +506,463 @@
     <header id="main-header">
         <a href="index.html" class="logo">
             <div class="logo-icon">展</div>
-            Canton Fair Guide
+            广交会指南
         </a>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html" class="cta-btn">Contact</a></li>
+                <li><a href="#info-section">服务</a></li>
+                <li><a href="#map-section">地图</a></li>
+                <li><a href="#content-section">指南</a></li>
+                <li><a href="about.html">关于</a></li>
+                <li><a href="contact.html" class="cta-btn">联系</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Globe View -->
-    <div id="globe-container">
-        <canvas id="globe"></canvas>
-    </div>
-
-    <div class="hero-overlay" id="hero-overlay">
-        <div class="hero-content">
-            <span class="hero-badge">🌏 137th Canton Fair · Spring 2026</span>
-            <h1 class="hero-title">Welcome to Guangzhou</h1>
+    <!-- Hero Section -->
+    <section id="hero">
+        <div id="globe-container">
+            <canvas id="globe"></canvas>
+        </div>
+        <div class="hero-overlay">
+            <span class="hero-badge">🌏 第137届广交会 · 2026年春季</span>
+            <h1 class="hero-title">您的智能广交会指南 2026</h1>
             <p class="hero-subtitle">
-                The world's largest trade fair awaits you. Discover the best guide to navigate, connect, and succeed at the Canton Fair.
-                <br><strong>Click the red marker on the globe to explore Guangzhou in detail!</strong>
+                广交会观展导航｜展馆地图｜展商查找｜广州出行指南
             </p>
             <div class="hero-buttons">
-                <a href="blog.html" class="btn-primary">Explore the Guide</a>
-                <a href="about.html" class="btn-secondary">Learn More</a>
+                <a href="#map-section" class="btn-primary">查看展馆地图</a>
+                <a href="blog.html" class="btn-secondary">查找产品类别</a>
+                <a href="blog.html" class="btn-primary">参展/观展指南</a>
+                <a href="blog.html" class="btn-secondary">广州住宿与交通</a>
             </div>
         </div>
-    </div>
+        <div class="scroll-hint">向下滚动探索</div>
+    </section>
 
-    <div class="scroll-hint" id="scroll-hint">
-        <div></div>
-        <span>Drag to Explore · Click red marker for Guangzhou</span>
-    </div>
-
-    <div class="footer" id="footer-text">
-        Zoom, rotate, and explore the globe
-    </div>
-
-    <!-- Detailed Map View -->
-    <div id="detail-map-container">
-        <div id="detail-map"></div>
-        <div class="map-overlay" id="map-overlay">
-            <h2>📍 Guangzhou & Canton Fair</h2>
-            <p>Explore key locations for your Canton Fair visit</p>
-            <button class="back-btn" onclick="showGlobe()">← Back to Globe</button>
-            <div class="location-list">
-                <div class="location-item">
-                    <div class="location-icon">🏢</div>
-                    <div class="location-info">
-                        <h4>Canton Fair Complex</h4>
-                        <p>Main exhibition venue - Pazhou Island</p>
-                    </div>
+    <!-- Info Cards Section -->
+    <section id="info-section">
+        <h2 class="section-title">快速访问</h2>
+        <div class="cards-grid">
+            <div class="info-card" onclick="scrollToSection('map-section')">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M3 12l2-2 4 4 4-4 4 4 2-2-6-6-6 6z"/>
+                        <circle cx="12" cy="10" r="3"/>
+                    </svg>
                 </div>
-                <div class="location-item">
-                    <div class="location-icon">✈️</div>
-                    <div class="location-info">
-                        <h4>Guangzhou Baiyun Airport</h4>
-                        <p>International airport - 30 km from venue</p>
-                    </div>
+                <div class="card-content">
+                    <h3 class="card-title">展馆总览</h3>
+                    <p class="card-desc">探索广交会展馆的完整地图，包括详细的A/B/C/D/E区布局。</p>
                 </div>
-                <div class="location-item">
-                    <div class="location-icon">🚄</div>
-                    <div class="location-info">
-                        <h4>Guangzhou South Station</h4>
-                        <p>High-speed rail hub</p>
-                    </div>
+            </div>
+            <div class="info-card" onclick="window.location.href='blog.html'">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <path d="M9 3v6h6V3H9zm4 8v6h6v-6h-6zm-4 8v6h6v-6H9z"/>
+                    </svg>
                 </div>
-                <div class="location-item">
-                    <div class="location-icon">🚇</div>
-                    <div class="location-info">
-                        <h4>Pazhou Metro Station</h4>
-                        <p>Direct access to the fair</p>
-                    </div>
+                <div class="card-content">
+                    <h3 class="card-title">展品分类</h3>
+                    <p class="card-desc">浏览各期展品分类 - 电子、机械、纺织等各类产品。</p>
+                </div>
+            </div>
+            <div class="info-card" onclick="window.location.href='blog.html'">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M18 2L21 8l-9 11-6-3.1L18 2z"/>
+                        <path d="M21 16v6h-2v-6h2zm-6 0v6h-2v-6h2zm-6 0v6H3v-6h2z"/>
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">热门行业</h3>
+                    <p class="card-desc">发现热门行业和高需求采购机会，涵盖主要领域。</p>
+                </div>
+            </div>
+            <div class="info-card" onclick="window.location.href='blog.html'">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                        <path d="M14 2v6h6M13 9H7v2h6"/>
+                        <circle cx="12" cy="16" r="1"/>
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">新手指南</h3>
+                    <p class="card-desc">首次参展的完整指南，包括注册、交通和展会提示。</p>
+                </div>
+            </div>
+            <div class="info-card" onclick="window.location.href='blog.html'">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 12h8M12 8v8"/>
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">广州地铁</h3>
+                    <p class="card-desc">了解广州地铁系统，方便到达展览中心。</p>
+                </div>
+            </div>
+            <div class="info-card" onclick="window.location.href='blog.html'">
+                <div class="card-icon-wrapper">
+                    <svg class="card-icon" viewBox="0 0 24 24">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="7.5 4.27 12 6.72 16.5 4.27"/>
+                        <polyline points="3.29 9 12 12.01 20.71 9"/>
+                    </svg>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">酒店推荐</h3>
+                    <p class="card-desc">精选琶洲附近高性价比酒店，方便参展出行。</p>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Three.js and Leaflet -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <!-- Map Section -->
+    <section id="map-section">
+        <h2 class="section-title">交互式地图</h2>
+        <div class="map-container">
+            <div id="detail-map"></div>
+            <div class="map-controls">
+                <button class="map-btn" onclick="flyToLocation(23.1038, 113.3279)">📍 广交会展馆</button>
+                <button class="map-btn" onclick="flyToLocation(23.3924, 113.2988)">✈️ 白云机场</button>
+                <button class="map-btn" onclick="flyToLocation(23.0021, 113.2606)">🚄 广州南站</button>
+                <button class="map-btn" onclick="flyToLocation(23.1465, 113.3288)">🚂 广州东站</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section id="content-section">
+        <h2 class="section-title">实用信息</h2>
+        <div class="content-grid">
+            <div class="content-card">
+                <h3>📅 2026年春季广交会时间</h3>
+                <p>第137届中国进出口商品交易会将于2026年4月15日至5月5日在广州琶洲广交会展馆举行。</p>
+                <ul>
+                    <li>第一期：4月15-19日 (工业制造)</li>
+                    <li>第二期：4月23-27日 (消费品)</li>
+                    <li>第三期：5月1-5日 (纺织服装)</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+            <div class="content-card">
+                <h3>🏛️ 展会分期介绍</h3>
+                <p>广交会每期展示不同类别的产品，方便采购商针对性参观。</p>
+                <ul>
+                    <li>第一期：大型机械、电子电器、五金工具</li>
+                    <li>第二期：日用消费品、礼品、家居用品</li>
+                    <li>第三期：纺织服装、鞋类、医疗保健</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+            <div class="content-card">
+                <h3>🚆 如何到达展馆</h3>
+                <p>广州地铁8号线琶洲站直达展馆，白云机场可乘地铁3号线转8号线。</p>
+                <ul>
+                    <li>地铁：8号线琶洲站A/B出口</li>
+                    <li>机场：地铁3号线北延段转8号线</li>
+                    <li>高铁：广州南站乘7号线转8号线</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+            <div class="content-card">
+                <h3>❓ 常见问题</h3>
+                <p>解答参展和观展过程中的常见疑问。</p>
+                <ul>
+                    <li>如何办理参展证件？</li>
+                    <li>展馆内有哪些餐饮设施？</li>
+                    <li>如何预约商务洽谈室？</li>
+                    <li>展馆开放时间是多少？</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+            <div class="content-card">
+                <h3>💡 首次参会建议</h3>
+                <p>第一次参加广交会？这些建议可以帮助您更好地规划行程。</p>
+                <ul>
+                    <li>提前注册并办理证件</li>
+                    <li>预订琶洲附近的酒店</li>
+                    <li>制定详细的参观计划</li>
+                    <li>准备充足的名片和资料</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+            <div class="content-card">
+                <h3>🌆 广州旅游推荐</h3>
+                <p>参展之余，探索广州这座充满活力的城市。</p>
+                <ul>
+                    <li>广州塔 - 城市地标</li>
+                    <li>陈家祠 - 岭南文化</li>
+                    <li>北京路 - 购物天堂</li>
+                    <li>珠江夜游 - 夜景迷人</li>
+                </ul>
+                <a href="blog.html" class="read-more">查看更多 →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <a href="index.html" class="footer-logo">
+                    <div class="logo-icon">展</div>
+                    广交会指南
+                </a>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">
+                    您的广交会综合指南 - 全球最大的贸易展览会。
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="blog.html">博客</a></li>
+                    <li><a href="about.html">关于</a></li>
+                    <li><a href="privacy.html">隐私政策</a></li>
+                    <li><a href="contact.html">联系</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>服务</h4>
+                <ul>
+                    <li><a href="#map-section">展馆地图</a></li>
+                    <li><a href="blog.html">展品分类</a></li>
+                    <li><a href="blog.html">参展指南</a></li>
+                    <li><a href="blog.html">交通指南</a></li>
+                    <li><a href="blog.html">酒店推荐</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>联系我们</h4>
+                <ul>
+                    <li>📧 info@cantonfairguide.com</li>
+                    <li>📍 中国，广州</li>
+                    <li>📞 +86 20 1234 5678</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 广交会指南。版权所有。 | <a href="privacy.html">隐私政策</a> | <a href="contact.html">联系我们</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
-    
     <script>
-        // ====================================================================
-        // GLOBE VIEW
-        // ====================================================================
-        let scene, camera, renderer;
-        let globe, clouds, atmosphere;
-        let markerGroup;
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
-        let targetRotationX = 0;
-        let targetRotationY = 0;
-        let rotationSpeed = 0.001;
-        let raycaster, mouse;
-        let isZoomedToGuangzhou = false;
-
-        // Guangzhou coordinates (approximately 23.1291° N, 113.2644° E)
-        const guangzhouLat = 23.1291 * Math.PI / 180;
-        const guangzhouLon = 113.2644 * Math.PI / 180;
-
-        function initGlobe() {
-            // Scene
-            scene = new THREE.Scene();
-            
-            // Camera
-            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 15;
-
-            // Renderer
-            renderer = new THREE.WebGLRenderer({
-                canvas: document.getElementById('globe'),
-                antialias: true,
-                alpha: true
-            });
-            
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-
-            // Stars background
-            const starsGeometry = new THREE.BufferGeometry();
-            const starsCount = 10000;
-            const starsPositions = new Float32Array(starsCount * 3);
-            
-            for (let i = 0; i < starsCount * 3; i++) {
-                starsPositions[i] = (Math.random() - 0.5) * 2000;
-            }
-            
-            starsGeometry.setAttribute('position', new THREE.BufferAttribute(starsPositions, 3));
-            const starsMaterial = new THREE.PointsMaterial({
-                color: 0xffffff,
-                size: 0.8,
-                sizeAttenuation: true
-            });
-            
-            const stars = new THREE.Points(starsGeometry, starsMaterial);
-            scene.add(stars);
-
-            // Create a procedural earth texture
-            const canvas = document.createElement('canvas');
-            canvas.width = 1024;
-            canvas.height = 512;
-            const ctx = canvas.getContext('2d');
-            
-            // Ocean color
-            const oceanGradient = ctx.createLinearGradient(0, 0, 0, 512);
-            oceanGradient.addColorStop(0, '#1a4a7a');
-            oceanGradient.addColorStop(0.5, '#0f3050');
-            oceanGradient.addColorStop(1, '#1a4a7a');
-            ctx.fillStyle = oceanGradient;
-            ctx.fillRect(0, 0, 1024, 512);
-            
-            // Continents
-            ctx.fillStyle = '#2a6a3a';
-            ctx.beginPath(); ctx.ellipse(750, 150, 150, 100, 0, 0, Math.PI * 2); ctx.fill(); // Asia
-            ctx.fillStyle = '#3a8a4a'; ctx.beginPath(); ctx.ellipse(780, 180, 80, 60, 0, 0, Math.PI * 2); ctx.fill(); // China
-            ctx.fillStyle = '#3a7a3a'; ctx.beginPath(); ctx.ellipse(550, 300, 80, 120, 0, 0, Math.PI * 2); ctx.fill(); // Africa
-            ctx.fillStyle = '#2a6a4a'; ctx.beginPath(); ctx.ellipse(500, 120, 80, 50, 0, 0, Math.PI * 2); ctx.fill(); // Europe
-            ctx.fillStyle = '#2a6a3a'; ctx.beginPath(); ctx.ellipse(180, 150, 100, 120, 0, 0, Math.PI * 2); ctx.fill(); // N America
-            ctx.beginPath(); ctx.ellipse(220, 380, 60, 90, 0.3, 0, Math.PI * 2); ctx.fill(); // S America
-            ctx.fillStyle = '#2a6a3a'; ctx.beginPath(); ctx.ellipse(880, 380, 60, 50, 0, 0, Math.PI * 2); ctx.fill(); // Australia
-            
-            const texture = new THREE.CanvasTexture(canvas);
-
-            // Globe
-            const globeGeometry = new THREE.SphereGeometry(5, 64, 64);
-            const globeMaterial = new THREE.MeshPhongMaterial({
-                map: texture,
-                specular: 0x333333,
-                shininess: 10
-            });
-            
-            globe = new THREE.Mesh(globeGeometry, globeMaterial);
-            globe.rotation.y = -guangzhouLon;
-            globe.rotation.x = -guangzhouLat;
-            scene.add(globe);
-
-            // Clouds
-            const cloudGeometry = new THREE.SphereGeometry(5.1, 64, 64);
-            const cloudMaterial = new THREE.MeshPhongMaterial({
-                color: 0xffffff,
-                transparent: true,
-                opacity: 0.15,
-                blending: THREE.AdditiveBlending,
-                side: THREE.DoubleSide
-            });
-            
-            clouds = new THREE.Mesh(cloudGeometry, cloudMaterial);
-            clouds.rotation.y = -guangzhouLon;
-            scene.add(clouds);
-
-            // Atmosphere
-            const atmosphereGeometry = new THREE.SphereGeometry(5.2, 64, 64);
-            const atmosphereMaterial = new THREE.MeshBasicMaterial({
-                color: 0x1a4a7a,
-                transparent: true,
-                opacity: 0.15,
-                side: THREE.BackSide
-            });
-            
-            atmosphere = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
-            atmosphere.rotation.y = -guangzhouLon;
-            scene.add(atmosphere);
-
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0x333333, 0.6);
-            scene.add(ambientLight);
-
-            const sunLight = new THREE.DirectionalLight(0xffffff, 1.2);
-            sunLight.position.set(10, 5, 10);
-            scene.add(sunLight);
-
-            const pointLight = new THREE.PointLight(0xe6b800, 1.5, 100);
-            pointLight.position.set(8, 6, 8);
-            scene.add(pointLight);
-
-            // Guangzhou Marker Group
-            markerGroup = new THREE.Group();
-
-            const markerGeometry = new THREE.SphereGeometry(0.18, 32, 32);
-            const markerMaterial = new THREE.MeshPhongMaterial({
-                color: 0xc41e3a,
-                emissive: 0xc41e3a,
-                shininess: 100
-            });
-            const marker = new THREE.Mesh(markerGeometry, markerMaterial);
-            marker.position.set(0, 0, 5.28);
-            marker.userData.isGuangzhou = true;
-            markerGroup.add(marker);
-
-            // Pulsing effect
-            const pulseGeometry = new THREE.SphereGeometry(0.25, 32, 32);
-            const pulseMaterial = new THREE.MeshBasicMaterial({
-                color: 0xe6b800,
-                transparent: true,
-                opacity: 0.7
-            });
-            const pulse = new THREE.Mesh(pulseGeometry, pulseMaterial);
-            pulse.position.set(0, 0, 5.28);
-            pulse.userData.isGuangzhou = true;
-            markerGroup.add(pulse);
-
-            // Outer ring
-            const ringGeometry = new THREE.RingGeometry(0.3, 0.35, 64);
-            const ringMaterial = new THREE.MeshBasicMaterial({
-                color: 0xc41e3a,
-                transparent: true,
-                opacity: 0.5,
-                side: THREE.DoubleSide
-            });
-            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-            ring.position.set(0, 0, 5.29);
-            ring.userData.isGuangzhou = true;
-            markerGroup.add(ring);
-
-            scene.add(markerGroup);
-
-            // Other cities
-            const cities = [
-                { lat: 39.9042, lon: 116.4074, color: 0xe6b800 }, // Beijing
-                { lat: 31.2304, lon: 121.4737, color: 0xe6b800 }, // Shanghai
-                { lat: 22.5431, lon: 114.0579, color: 0xe6b800 }, // Shenzhen
-                { lat: 22.3193, lon: 114.1694, color: 0xe6b800 }, // Hong Kong
-                { lat: 35.6762, lon: 139.6503, color: 0x888888 }, // Tokyo
-                { lat: 1.3521, lon: 103.8198, color: 0x888888 }, // Singapore
-                { lat: -33.8688, lon: 151.2093, color: 0x888888 }, // Sydney
-                { lat: 25.2048, lon: 55.2708, color: 0x888888 }, // Dubai
-                { lat: 51.5074, lon: -0.1278, color: 0x888888 }, // London
-                { lat: 40.7128, lon: -74.0060, color: 0x888888 }, // New York
-                { lat: 34.0522, lon: -118.2437, color: 0x888888 } // LA
-            ];
-
-            cities.forEach(city => {
-                const lat = city.lat * Math.PI / 180;
-                const lon = city.lon * Math.PI / 180;
-                const x = 5.06 * Math.cos(lat) * Math.cos(lon);
-                const y = 5.06 * Math.sin(lat);
-                const z = 5.06 * Math.cos(lat) * Math.sin(lon);
-
-                const cityMarkerGeo = new THREE.SphereGeometry(0.06, 16, 16);
-                const cityMarkerMat = new THREE.MeshBasicMaterial({
-                    color: city.color
-                });
-                const cityMarker = new THREE.Mesh(cityMarkerGeo, cityMarkerMat);
-
-                const cityGroup = new THREE.Group();
-                cityMarker.position.set(x, y, z);
-                cityGroup.add(cityMarker);
-                cityGroup.rotation.x = -guangzhouLat;
-                cityGroup.rotation.y = -guangzhouLon;
-
-                scene.add(cityGroup);
-            });
-
-            // Raycaster for interaction
-            raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2();
-
-            // Event listeners
-            setupGlobeEvents();
-        }
-
-        function setupGlobeEvents() {
-            // Mouse/Touch drag
-            document.addEventListener('mousedown', onDragStart);
-            document.addEventListener('mousemove', onDragMove);
-            document.addEventListener('mouseup', onDragEnd);
-            document.addEventListener('mouseleave', onDragEnd);
-
-            document.addEventListener('touchstart', onTouchStart, { passive: false });
-            document.addEventListener('touchmove', onTouchMove, { passive: false });
-            document.addEventListener('touchend', onDragEnd);
-
-            // Zoom
-            document.addEventListener('wheel', onWheel);
-
-            // Click
-            document.getElementById('globe').addEventListener('click', onClick);
-        }
-
-        function onDragStart(e) {
-            isDragging = true;
-            previousMousePosition = {
-                x: e.clientX || (e.touches && e.touches[0].clientX),
-                y: e.clientY || (e.touches && e.touches[0].clientY)
-            };
-        }
-
-        function onDragMove(e) {
-            if (isDragging) {
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-                const deltaMove = {
-                    x: clientX - previousMousePosition.x,
-                    y: clientY - previousMousePosition.y
-                };
-
-                targetRotationY += deltaMove.x * 0.005;
-                targetRotationX += deltaMove.y * 0.005;
-
-                previousMousePosition = { x: clientX, y: clientY };
-            }
-        }
-
-        function onDragEnd() {
-            isDragging = false;
-        }
-
-        function onTouchStart(e) {
-            if (e.touches.length === 1) {
-                onDragStart(e);
-            }
-        }
-
-        function onTouchMove(e) {
-            e.preventDefault();
-            if (e.touches.length === 1) {
-                onDragMove(e);
-            }
-        }
-
-        function onWheel(e) {
-            camera.position.z += e.deltaY * 0.01;
-            camera.position.z = Math.max(8, Math.min(30, camera.position.z));
-        }
-
-        function onClick(e) {
-            // Calculate mouse position
-            const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-
-            raycaster.setFromCamera(mouse, camera);
-
-            // Check for intersections with marker group
-            const intersects = raycaster.intersectObjects(markerGroup.children, true);
-
-            if (intersects.length > 0) {
-                const object = intersects[0].object;
-                if (object.userData.isGuangzhou || (object.parent && object.parent.userData.isGuangzhou)) {
-                    zoomToGuangzhou();
-                }
-            }
-        }
-
-        function zoomToGuangzhou() {
-            isZoomedToGuangzhou = true;
-            rotationSpeed = 0;
-            
-            // Animate zoom in
-            const startZ = camera.position.z;
-            const targetZ = 7;
-            const duration = 1000;
-            const startTime = Date.now();
-
-            function animateZoom() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-
-                camera.position.z = startZ + (targetZ - startZ) * eased;
-
-                if (progress < 1) {
-                    requestAnimationFrame(animateZoom);
-                } else {
-                    setTimeout(showDetailMap, 300);
-                }
-            }
-
-            animateZoom();
-        }
-
-        let pulseScale = 1;
-        let pulseDirection = 1;
-
-        function animateGlobe() {
-            if (!isZoomedToGuangzhou) {
-                requestAnimationFrame(animateGlobe);
-
-                // Auto rotation
-                if (!isDragging) {
-                    targetRotationY += rotationSpeed;
-                }
-
-                // Smooth rotation
-                globe.rotation.y += (targetRotationY - globe.rotation.y) * 0.05;
-                globe.rotation.x += (targetRotationX - globe.rotation.x) * 0.05;
-                clouds.rotation.y += (targetRotationY - clouds.rotation.y) * 0.05 + 0.0005;
-                atmosphere.rotation.y += (targetRotationY - atmosphere.rotation.y) * 0.05;
-                markerGroup.rotation.y += (targetRotationY - markerGroup.rotation.y) * 0.05;
-                markerGroup.rotation.x += (targetRotationX - markerGroup.rotation.x) * 0.05;
-
-                // Pulse animation
-                pulseScale += 0.015 * pulseDirection;
-                const pulse = markerGroup.children[1];
-                if (pulse) {
-                    pulse.scale.set(pulseScale, pulseScale, pulseScale);
-                    pulse.material.opacity = 0.7 - (pulseScale - 1) * 0.4;
-                }
-
-                if (pulseScale > 1.8 || pulseScale < 1) {
-                    pulseDirection *= -1;
-                }
-
-                renderer.render(scene, camera);
-            }
-        }
-
-        // ====================================================================
-        // DETAILED MAP VIEW
-        // ====================================================================
-        let detailMap;
-
-        function initDetailMap() {
-            detailMap = L.map('detail-map', {
-                zoomControl: false
-            }).setView([23.10, 113.33], 12);
-
-            // Add OpenStreetMap tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors',
-                maxZoom: 19
-            }).addTo(detailMap);
-
-            // Custom div icons
-            function createDivIcon(emoji, className) {
-                return L.divIcon({
-                    className: `custom-marker ${className}`,
-                    html: `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">${emoji}</div>`,
-                    iconSize: className === 'marker-canton' ? [40, 40] : (className === 'marker-subway' ? [32, 32] : [36, 36]),
-                    iconAnchor: className === 'marker-canton' ? [20, 20] : (className === 'marker-subway' ? [16, 16] : [18, 18])
-                });
-            }
-
-            // Canton Fair Complex
-            const cantonFairMarker = L.marker([23.1038, 113.3279], {
-                icon: createDivIcon('🏢', 'marker-canton')
-            }).addTo(detailMap);
-
-            cantonFairMarker.bindPopup(`
-                <div class="popup-content">
-                    <h3>🏢 Canton Fair Complex</h3>
-                    <p>The world's largest exhibition venue.<br>
-                    <strong>Phases:</strong><br>
-                    • Phase 1: April 15-19<br>
-                    • Phase 2: April 23-27<br>
-                    • Phase 3: May 1-5</p>
-                </div>
-            `, { className: 'custom-popup' }).openPopup();
-
-            // Baiyun Airport
-            L.marker([23.3924, 113.2988], {
-                icon: createDivIcon('✈️', 'marker-airport')
-            }).addTo(detailMap).bindPopup(`
-                <div class="popup-content">
-                    <h3>✈️ Guangzhou Baiyun International Airport</h3>
-                    <p>China's busiest airport.<br>
-                    <strong>To venue:</strong><br>
-                    • Metro: Line 3 → Line 8 (1hr)<br>
-                    • Taxi: ~45 mins (¥150-200)</p>
-                </div>
-            `, { className: 'custom-popup' });
-
-            // Guangzhou South Station
-            L.marker([23.0021, 113.2606], {
-                icon: createDivIcon('🚄', 'marker-train')
-            }).addTo(detailMap).bindPopup(`
-                <div class="popup-content">
-                    <h3>🚄 Guangzhou South Railway Station</h3>
-                    <p>Asia's largest high-speed rail hub.<br>
-                    <strong>To venue:</strong><br>
-                    • Metro: Line 2 → Line 8 (50 mins)</p>
-                </div>
-            `, { className: 'custom-popup' });
-
-            // Pazhou Metro Station
-            L.marker([23.1036, 113.3271], {
-                icon: createDivIcon('🚇', 'marker-subway')
-            }).addTo(detailMap).bindPopup(`
-                <div class="popup-content">
-                    <h3>🚇 Pazhou Metro Station</h3>
-                    <p>Direct access to the Canton Fair.<br>
-                    <strong>Lines:</strong> Line 8</p>
-                </div>
-            `, { className: 'custom-popup' });
-
-            // Guangzhou East Station
-            L.marker([23.1472, 113.3255], {
-                icon: createDivIcon('🚄', 'marker-train')
-            }).addTo(detailMap).bindPopup(`
-                <div class="popup-content">
-                    <h3>🚄 Guangzhou East Railway Station</h3>
-                    <p>High-speed connections to Hong Kong and Shenzhen.</p>
-                </div>
-            `, { className: 'custom-popup' });
-
-            // Key hotels
-            L.marker([23.1200, 113.3200], {
-                icon: createDivIcon('🏨', 'marker-subway')
-            }).addTo(detailMap).bindPopup(`
-                <div class="popup-content">
-                    <h3>🏨 Area Hotels</h3>
-                    <p>Many hotels nearby the complex:<br>
-                    • Shangri-La Guangzhou<br>
-                    • The Westin Pazhou<br>
-                    • InterContinental Guangzhou</p>
-                </div>
-            `, { className: 'custom-popup' });
-        }
-
-        function showDetailMap() {
-            document.getElementById('globe-container').classList.add('hidden');
-            document.getElementById('hero-overlay').classList.add('hidden');
-            document.getElementById('scroll-hint').classList.add('hidden');
-            document.getElementById('footer-text').classList.add('hidden');
-            document.getElementById('main-header').classList.add('hidden');
-            document.getElementById('detail-map-container').classList.add('visible');
-
-            if (!detailMap) {
-                initDetailMap();
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
             } else {
-                detailMap.invalidateSize();
-            }
-        }
-
-        function showGlobe() {
-            document.getElementById('globe-container').classList.remove('hidden');
-            document.getElementById('hero-overlay').classList.remove('hidden');
-            document.getElementById('scroll-hint').classList.remove('hidden');
-            document.getElementById('footer-text').classList.remove('hidden');
-            document.getElementById('main-header').classList.remove('hidden');
-            document.getElementById('detail-map-container').classList.remove('visible');
-
-            isZoomedToGuangzhou = false;
-            camera.position.z = 15;
-            rotationSpeed = 0.001;
-            animateGlobe();
-        }
-
-        // ====================================================================
-        // INITIALIZE
-        // ====================================================================
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            if (detailMap) {
-                detailMap.invalidateSize();
+                header.classList.remove('scrolled');
             }
         });
 
-        // Start everything
-        initGlobe();
-        animateGlobe();
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // === 3D Globe ===
+        let scene, camera, renderer, earth, marker, atmosphere;
+        let isDragging = false;
+        let previousMouse = { x: 0, y: 0 };
+        let autoRotate = true;
+        let earthGroup;
+
+        const GUANGZHOU_LAT = 23.1291;
+        const GUANGZHOU_LON = 113.2644;
+
+        function latLonToVector(lat, lon, radius) {
+            const phi = (90 - lat) * (Math.PI / 180);
+            const theta = (lon + 180) * (Math.PI / 180);
+            return new THREE.Vector3(
+                -radius * Math.sin(phi) * Math.cos(theta),
+                radius * Math.cos(phi),
+                radius * Math.sin(phi) * Math.sin(theta)
+            );
+        }
+
+        function initGlobe() {
+            const container = document.getElementById('globe');
+            
+            scene = new THREE.Scene();
+            
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 0, 15);
+
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: container,
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 3, 5);
+            scene.add(directionalLight);
+
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.5 });
+            const starsVertices = [];
+            for (let i = 0; i < 10000; i++) {
+                starsVertices.push(
+                    (Math.random() - 0.5) * 2000,
+                    (Math.random() - 0.5) * 2000,
+                    (Math.random() - 0.5) * 2000
+                );
+            }
+            starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+            const stars = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(stars);
+
+            const textureLoader = new THREE.TextureLoader();
+            
+            earthGroup = new THREE.Group();
+            scene.add(earthGroup);
+
+            const earthGeometry = new THREE.SphereGeometry(5, 64, 64);
+            
+            const earthMaterial = new THREE.MeshPhongMaterial({
+                map: textureLoader.load('https://eoimages.gsfc.nasa.gov/images/imagerecords/73000/73725/world.topo.bathy.200405.3x5400x2700.jpg'),
+                bumpMap: textureLoader.load('https://threejs.org/examples/textures/land_ocean_ice_cloud_2048.jpg'),
+                bumpScale: 0.05,
+                specular: new THREE.Color(0x333333),
+                shininess: 15
+            });
+
+            earth = new THREE.Mesh(earthGeometry, earthMaterial);
+            earthGroup.add(earth);
+
+            atmosphere = new THREE.Mesh(
+                new THREE.SphereGeometry(5.1, 64, 64),
+                new THREE.ShaderMaterial({
+                    vertexShader: `varying vec3 vNormal; void main() { vNormal = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+                    fragmentShader: `varying vec3 vNormal; void main() { float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.0); gl_FragColor = vec4(0.3, 0.6, 1.0, 1.0) * intensity; }`,
+                    blending: THREE.AdditiveBlending,
+                    side: THREE.BackSide,
+                    transparent: true
+                })
+            );
+            earthGroup.add(atmosphere);
+
+            const markerGeometry = new THREE.SphereGeometry(0.15, 32, 32);
+            const markerMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            marker = new THREE.Mesh(markerGeometry, markerMaterial);
+            
+            const gzPos = latLonToVector(GUANGZHOU_LAT, GUANGZHOU_LON, 5.05);
+            marker.position.copy(gzPos);
+            earthGroup.add(marker);
+
+            const ringGeometry = new THREE.RingGeometry(0.25, 0.4, 64);
+            const ringMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xffff00, 
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.8
+            });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.position.copy(gzPos);
+            ring.lookAt(new THREE.Vector3(0, 0, 0));
+            earthGroup.add(ring);
+
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                previousMouse = { x: e.clientX, y: e.clientY };
+                autoRotate = false;
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const deltaX = e.clientX - previousMouse.x;
+                const deltaY = e.clientY - previousMouse.y;
+                earthGroup.rotation.y += deltaX * 0.005;
+                earthGroup.rotation.x += deltaY * 0.005;
+                earthGroup.rotation.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, earthGroup.rotation.x));
+                previousMouse = { x: e.clientX, y: e.clientY };
+            });
+
+            container.addEventListener('mouseup', () => isDragging = false);
+            container.addEventListener('mouseleave', () => isDragging = false);
+
+            container.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                camera.position.z += e.deltaY * 0.001;
+                camera.position.z = Math.max(6, Math.min(30, camera.position.z));
+            });
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (autoRotate) {
+                earthGroup.rotation.y += 0.001;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        // === Map ===
+        let detailMap;
+
+        function initMap() {
+            detailMap = L.map('detail-map', { 
+                zoomControl: true,
+                center: [23.10, 113.33],
+                zoom: 12
+            });
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(detailMap);
+
+            L.circleMarker([23.1038, 113.3279], {
+                color: '#c41e3a', fillColor: '#c41e3a', fillOpacity: 0.8, radius: 12
+            }).addTo(detailMap).bindPopup('<div style="text-align:center"><h3 style="color:#c41e3a">🏢 广交会展馆</h3><p style="font-size:12px">琶洲展馆</p></div>');
+
+            L.circleMarker([23.3924, 113.2988], {
+                color: '#1976d2', fillColor: '#42a5f5', fillOpacity: 0.8, radius: 10
+            }).addTo(detailMap).bindPopup('<div style="text-align:center"><h3 style="color:#1976d2">✈️ 白云机场</h3><p style="font-size:12px">白云国际机场</p></div>');
+
+            L.circleMarker([23.0021, 113.2606], {
+                color: '#388e3c', fillColor: '#66bb6a', fillOpacity: 0.8, radius: 10
+            }).addTo(detailMap).bindPopup('<div style="text-align:center"><h3 style="color:#388e3c">🚄 广州南站</h3><p style="font-size:12px">高铁枢纽</p></div>');
+
+            L.circleMarker([23.1465, 113.3288], {
+                color: '#f57c00', fillColor: '#ffb74d', fillOpacity: 0.8, radius: 8
+            }).addTo(detailMap).bindPopup('<div style="text-align:center"><h3 style="color:#f57c00">🚂 广州东站</h3><p style="font-size:12px">通往深圳/香港</p></div>');
+        }
+
+        function flyToLocation(lat, lng) {
+            if (detailMap) {
+                detailMap.flyTo([lat, lng], 15, { animate: true, duration: 1 });
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            initGlobe();
+            initMap();
+        });
     </script>
 </body>
 </html>
